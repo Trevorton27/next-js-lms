@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     const { message } = await request.json();
+    console.log('message: ', message)
 
     if (!message) {
       return NextResponse.json({ error: 'Message is required.' }, { status: 400 });
@@ -15,16 +16,18 @@ export async function POST(request: Request) {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-        "Content-Type": "application/json"
+         "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+       
       },
       body: JSON.stringify({
-        model: "gpt-4",
+        model: "gpt-3.5-turbo",
         messages: [{ role: "user", content: message }]
       })
     });
 
     const data = await response.json();
+    console.error("Error:",  data);
 
     if (!response.ok) {
       return NextResponse.json({ error: data.error || 'OpenAI API error' }, { status: response.status });
