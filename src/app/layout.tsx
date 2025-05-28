@@ -3,6 +3,7 @@ import "./globals.css"
 import { ClerkProvider } from "@clerk/nextjs"
 import { Toaster } from "@/components/ui/toaster"
 import Chat from "@/components/chat/Chat"
+import Header from '@/components/Header'
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -11,13 +12,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <ClerkProvider>
       <html lang="en">
         <body className="antialiased">
+          <Header />
           {children}
           <Chat/>
           <Toaster />
