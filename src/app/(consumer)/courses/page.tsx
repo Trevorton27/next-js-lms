@@ -21,17 +21,11 @@ import {
   UserCourseAccessTable,
   UserLessonCompleteTable,
 } from "@/drizzle/schema"
-import { getCourseIdTag } from "@/features/courses/db/cache/courses"
-import { getUserCourseAccessUserTag } from "@/features/courses/db/cache/userCourseAccess"
-import { getCourseSectionCourseTag } from "@/features/courseSections/db/cache"
 import { wherePublicCourseSections } from "@/features/courseSections/permissions/sections"
-import { getLessonCourseTag } from "@/features/lessons/db/cache/lessons"
-import { getUserLessonCompleteUserTag } from "@/features/lessons/db/cache/userLessonComplete"
 import { wherePublicLessons } from "@/features/lessons/permissions/lessons"
 import { formatPlural } from "@/lib/formatters"
 import { getCurrentUser } from "@/services/clerk"
 import { and, countDistinct, eq } from "drizzle-orm"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import Link from "next/link"
 import { Suspense } from "react"
 
@@ -128,11 +122,7 @@ function SkeletonCourseCard() {
 }
 
 async function getUserCourses(userId: string) {
-  "use cache"
-  cacheTag(
-    getUserCourseAccessUserTag(userId),
-    getUserLessonCompleteUserTag(userId)
-  )
+
 
   const courses = await db
     .select({
@@ -172,13 +162,6 @@ async function getUserCourses(userId: string) {
     .orderBy(CourseTable.name)
     .groupBy(CourseTable.id)
 
-  courses.forEach(course => {
-    cacheTag(
-      getCourseIdTag(course.id),
-      getCourseSectionCourseTag(course.id),
-      getLessonCourseTag(course.id)
-    )
-  })
 
   return courses
 }

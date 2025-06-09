@@ -3,6 +3,7 @@ import "./globals.css"
 import { ClerkProvider } from "@clerk/nextjs"
 import { Toaster } from "@/components/ui/toaster"
 import Chat from "@/components/chat/Chat"
+import { ThemeProvider } from 'next-themes'
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,14 +16,18 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className="antialiased">
-          {children}
-          <Chat/>
-          <Toaster />
-        </body>
-      </html>
-    </ClerkProvider>
+
+      <ClerkProvider>
+        <html lang="en">
+          <body className="antialiased">
+                <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true}>
+            {children}
+            <Chat />
+            <Toaster />
+                </ThemeProvider>
+          </body>
+        </html>
+      </ClerkProvider>
+
   )
 }

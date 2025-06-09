@@ -35,11 +35,8 @@ export async function canViewLesson(
   },
   lesson: { id: string; status: LessonStatus }
 ) {
-  "use cache"
   if (role === "admin" || lesson.status === "preview") return true
   if (userId == null || lesson.status === "private") return false
-
-  cacheTag(getUserCourseAccessUserTag(userId), getLessonIdTag(lesson.id))
 
   const [data] = await db
     .select({ courseId: CourseTable.id })

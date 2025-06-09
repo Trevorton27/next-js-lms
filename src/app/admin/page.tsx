@@ -13,15 +13,8 @@ import {
   PurchaseTable,
   UserCourseAccessTable,
 } from "@/drizzle/schema"
-import { getCourseGlobalTag } from "@/features/courses/db/cache/courses"
-import { getUserCourseAccessGlobalTag } from "@/features/courses/db/cache/userCourseAccess"
-import { getCourseSectionGlobalTag } from "@/features/courseSections/db/cache"
-import { getLessonGlobalTag } from "@/features/lessons/db/cache/lessons"
-import { getProductGlobalTag } from "@/features/products/db/cache"
-import { getPurchaseGlobalTag } from "@/features/purchases/db/cache"
 import { formatNumber, formatPrice } from "@/lib/formatters"
 import { count, countDistinct, isNotNull, sql, sum } from "drizzle-orm"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import { ReactNode } from "react"
 
 export default async function AdminPage() {
@@ -81,9 +74,6 @@ function StatCard({ title, children }: { title: string; children: ReactNode }) {
 }
 
 async function getPurchaseDetails() {
-  "use cache"
-  cacheTag(getPurchaseGlobalTag())
-
   const data = await db
     .select({
       totalSales: sql<number>`COALESCE(${sum(
@@ -118,9 +108,6 @@ async function getPurchaseDetails() {
 }
 
 async function getTotalStudents() {
-  "use cache"
-  cacheTag(getUserCourseAccessGlobalTag())
-
   const [data] = await db
     .select({ totalStudents: countDistinct(UserCourseAccessTable.userId) })
     .from(UserCourseAccessTable)
@@ -130,9 +117,6 @@ async function getTotalStudents() {
 }
 
 async function getTotalCourses() {
-  "use cache"
-  cacheTag(getCourseGlobalTag())
-
   const [data] = await db
     .select({ totalCourses: count(CourseTable.id) })
     .from(CourseTable)
@@ -142,9 +126,6 @@ async function getTotalCourses() {
 }
 
 async function getTotalProducts() {
-  "use cache"
-  cacheTag(getProductGlobalTag())
-
   const [data] = await db
     .select({ totalProducts: count(ProductTable.id) })
     .from(ProductTable)
@@ -153,9 +134,6 @@ async function getTotalProducts() {
 }
 
 async function getTotalLessons() {
-  "use cache"
-  cacheTag(getLessonGlobalTag())
-
   const [data] = await db
     .select({ totalLessons: count(LessonTable.id) })
     .from(LessonTable)
@@ -164,9 +142,6 @@ async function getTotalLessons() {
 }
 
 async function getTotalCourseSections() {
-  "use cache"
-  cacheTag(getCourseSectionGlobalTag())
-
   const [data] = await db
     .select({ totalCourseSections: count(CourseSectionTable.id) })
     .from(CourseSectionTable)

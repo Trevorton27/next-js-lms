@@ -1,10 +1,8 @@
 import { db } from "@/drizzle/db"
 import { ProductTable } from "@/drizzle/schema"
 import { ProductCard } from "@/features/products/components/ProductCard"
-import { getProductGlobalTag } from "@/features/products/db/cache"
 import { wherePublicProducts } from "@/features/products/permissions/products"
 import { asc } from "drizzle-orm"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import LandingPage from "@/app/LandingPage"
 
 export default async function HomePage() {
@@ -24,8 +22,7 @@ export default async function HomePage() {
 }
 
 async function getPublicProducts() {
-  "use cache"
-  cacheTag(getProductGlobalTag())
+
 
   return db.query.ProductTable.findMany({
     columns: {

@@ -16,11 +16,7 @@ export async function canUpdateUserLessonCompleteStatus(
   user: { userId: string | undefined },
   lessonId: string
 ) {
-  "use cache"
-  cacheTag(getLessonIdTag(lessonId))
   if (user.userId == null) return false
-
-  cacheTag(getUserCourseAccessUserTag(user.userId))
 
   const [courseAccess] = await db
     .select({ courseId: CourseTable.id })

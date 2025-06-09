@@ -16,9 +16,6 @@ export async function userOwnsProduct({
   userId: string
   productId: string
 }) {
-  "use cache"
-  cacheTag(getPurchaseUserTag(userId))
-
   const existingPurchase = await db.query.PurchaseTable.findFirst({
     where: and(
       eq(PurchaseTable.productId, productId),

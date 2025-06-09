@@ -5,18 +5,13 @@ import {
   LessonTable,
   UserLessonCompleteTable,
 } from "@/drizzle/schema"
-import { getCourseIdTag } from "@/features/courses/db/cache/courses"
-import { getCourseSectionCourseTag } from "@/features/courseSections/db/cache"
 import { wherePublicCourseSections } from "@/features/courseSections/permissions/sections"
-import { getLessonCourseTag } from "@/features/lessons/db/cache/lessons"
 import { wherePublicLessons } from "@/features/lessons/permissions/lessons"
 import { getCurrentUser } from "@/services/clerk"
 import { asc, eq } from "drizzle-orm"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import { notFound } from "next/navigation"
 import { ReactNode, Suspense } from "react"
 import { CoursePageClient } from "./_client"
-import { getUserLessonCompleteUserTag } from "@/features/lessons/db/cache/userLessonComplete"
 
 export default async function CoursePageLayout({
   params,
@@ -46,12 +41,7 @@ export default async function CoursePageLayout({
 }
 
 async function getCourse(id: string) {
-  "use cache"
-  cacheTag(
-    getCourseIdTag(id),
-    getCourseSectionCourseTag(id),
-    getLessonCourseTag(id)
-  )
+
 
   return db.query.CourseTable.findFirst({
     where: eq(CourseTable.id, id),
@@ -100,8 +90,6 @@ async function SuspenseBoundary({
 }
 
 async function getCompletedLessonIds(userId: string) {
-  "use cache"
-  cacheTag(getUserLessonCompleteUserTag(userId))
 
   const data = await db.query.UserLessonCompleteTable.findMany({
     columns: { lessonId: true },

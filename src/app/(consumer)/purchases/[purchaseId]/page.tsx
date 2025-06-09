@@ -12,13 +12,11 @@ import {
 } from "@/components/ui/card"
 import { db } from "@/drizzle/db"
 import { PurchaseTable } from "@/drizzle/schema"
-import { getPurchaseIdTag } from "@/features/purchases/db/cache"
 import { formatDate, formatPrice } from "@/lib/formatters"
 import { cn } from "@/lib/utils"
 import { getCurrentUser } from "@/services/clerk"
 import { stripeServerClient } from "@/services/stripe/stripeServer"
 import { and, eq } from "drizzle-orm"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Fragment, Suspense } from "react"
@@ -114,9 +112,6 @@ async function SuspenseBoundary({ purchaseId }: { purchaseId: string }) {
 }
 
 async function getPurchase({ userId, id }: { userId: string; id: string }) {
-  "use cache"
-  cacheTag(getPurchaseIdTag(id))
-
   return db.query.PurchaseTable.findFirst({
     columns: {
       pricePaidInCents: true,

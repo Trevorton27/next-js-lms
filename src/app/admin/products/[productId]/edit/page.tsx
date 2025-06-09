@@ -1,11 +1,8 @@
 import { PageHeader } from "@/components/PageHeader"
 import { db } from "@/drizzle/db"
 import { CourseTable, ProductTable } from "@/drizzle/schema"
-import { getCourseGlobalTag } from "@/features/courses/db/cache/courses"
 import { ProductForm } from "@/features/products/components/ProductForm"
-import { getProductIdTag } from "@/features/products/db/cache"
 import { asc, eq } from "drizzle-orm"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import { notFound } from "next/navigation"
 
 export default async function EditProductPage({
@@ -33,9 +30,6 @@ export default async function EditProductPage({
 }
 
 async function getCourses() {
-  "use cache"
-  cacheTag(getCourseGlobalTag())
-
   return db.query.CourseTable.findMany({
     orderBy: asc(CourseTable.name),
     columns: { id: true, name: true },
@@ -43,9 +37,6 @@ async function getCourses() {
 }
 
 async function getProduct(id: string) {
-  "use cache"
-  cacheTag(getProductIdTag(id))
-
   return db.query.ProductTable.findFirst({
     columns: {
       id: true,

@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { PageHeader } from "@/components/PageHeader"
 import Link from "next/link"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import { db } from "@/drizzle/db"
 import {
   CourseProductTable,
@@ -9,7 +8,6 @@ import {
   PurchaseTable,
 } from "@/drizzle/schema"
 import { asc, countDistinct, eq } from "drizzle-orm"
-import { getProductGlobalTag } from "@/features/products/db/cache"
 import { ProductTable } from "@/features/products/components/ProductTable"
 
 export default async function ProductsPage() {
@@ -29,9 +27,6 @@ export default async function ProductsPage() {
 }
 
 async function getProducts() {
-  "use cache"
-  cacheTag(getProductGlobalTag())
-
   return db
     .select({
       id: DbProductTable.id,

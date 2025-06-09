@@ -18,30 +18,30 @@ export default function ConsumerLayout({
 
 function Navbar() {
   return (
-    <header className="flex h-12 shadow bg-background z-10">
-      <nav className="flex gap-4 container">
+    <header className="flex h-12 shadow bg-background z-10 ">
+      <nav className="flex gap-4 container ">
         <Link
-          className="mr-auto text-lg hover:underline flex items-center"
+          className="mr-auto text-lg hover:underline flex items-center "
           href="/"
         >
-         TokuDev: Code Your Future
+          TokuDev: Code Your Future
         </Link>
         <Suspense>
           <SignedIn>
             <AdminLink />
             <Link
-              className="hover:bg-accent/10 flex items-center px-2"
+              className="hover:bg-accent/10 flex items-center px-2 "
               href="/courses"
             >
               My Courses
             </Link>
             <Link
-              className="hover:bg-accent/10 flex items-center px-2"
+              className="hover:bg-accent/10 flex items-center px-2 "
               href="/purchases"
             >
               Purchase History
             </Link>
-            <div className="size-8 self-center">
+            <div className="size-8 self-center ">
               <UserButton
                 appearance={{
                   elements: {
@@ -54,7 +54,7 @@ function Navbar() {
         </Suspense>
         <Suspense>
           <SignedOut>
-            <Button className="self-center" asChild>
+            <Button className="self-center " asChild>
               <SignInButton>Sign In</SignInButton>
             </Button>
           </SignedOut>
@@ -69,7 +69,7 @@ async function AdminLink() {
   if (!canAccessAdminPages(user)) return null
 
   return (
-    <Link className="hover:bg-accent/10 flex items-center px-2" href="/admin">
+    <Link className="hover:bg-accent/10 flex items-center px-2 " href="/admin">
       Admin
     </Link>
   )
