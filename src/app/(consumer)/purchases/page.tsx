@@ -6,10 +6,8 @@ import {
   UserPurchaseTable,
   UserPurchaseTableSkeleton,
 } from "@/features/purchases/components/UserPurchaseTable"
-import { getPurchaseUserTag } from "@/features/purchases/db/cache"
 import { getCurrentUser } from "@/services/clerk"
 import { desc, eq } from "drizzle-orm"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import Link from "next/link"
 import { Suspense } from "react"
 
@@ -45,8 +43,6 @@ async function SuspenseBoundary() {
 }
 
 async function getPurchases(userId: string) {
-  "use cache"
-  cacheTag(getPurchaseUserTag(userId))
 
   return db.query.PurchaseTable.findMany({
     columns: {

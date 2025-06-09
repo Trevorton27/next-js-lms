@@ -11,8 +11,6 @@ import {
 import { wherePublicCourseSections } from "@/features/courseSections/permissions/sections"
 import { updateLessonCompleteStatus } from "@/features/lessons/actions/userLessonComplete"
 import { YouTubeVideoPlayer } from "@/features/lessons/components/YouTubeVideoPlayer"
-import { getLessonIdTag } from "@/features/lessons/db/cache/lessons"
-import { getUserLessonCompleteIdTag } from "@/features/lessons/db/cache/userLessonComplete"
 import {
   canViewLesson,
   wherePublicLessons,
@@ -21,7 +19,6 @@ import { canUpdateUserLessonCompleteStatus } from "@/features/lessons/permission
 import { getCurrentUser } from "@/services/clerk"
 import { and, asc, desc, eq, gt, lt } from "drizzle-orm"
 import { CheckSquare2Icon, LockIcon, XSquareIcon } from "lucide-react"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ReactNode, Suspense } from "react"
@@ -272,8 +269,7 @@ async function getNextLesson(lesson: {
 }
 
 async function getLesson(id: string) {
-  "use cache"
-  cacheTag(getLessonIdTag(id))
+
 
   return db.query.LessonTable.findFirst({
     columns: {
@@ -296,8 +292,7 @@ async function getIsLessonComplete({
   userId: string
   lessonId: string
 }) {
-  "use cache"
-  cacheTag(getUserLessonCompleteIdTag({ userId, lessonId }))
+ 
 
   const data = await db.query.UserLessonCompleteTable.findFirst({
     where: and(

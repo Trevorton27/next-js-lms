@@ -192,8 +192,6 @@ async function Price({ price }: { price: number }) {
 }
 
 async function getPublicProduct(id: string) {
-  "use cache"
-  cacheTag(getProductIdTag(id))
 
   const product = await db.query.ProductTable.findFirst({
     columns: {

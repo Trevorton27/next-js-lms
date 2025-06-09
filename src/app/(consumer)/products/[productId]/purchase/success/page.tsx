@@ -1,10 +1,8 @@
 import { Button } from "@/components/ui/button"
 import { db } from "@/drizzle/db"
 import { ProductTable } from "@/drizzle/schema"
-import { getProductIdTag } from "@/features/products/db/cache"
 import { wherePublicProducts } from "@/features/products/permissions/products"
 import { and, eq } from "drizzle-orm"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -44,8 +42,7 @@ export default async function ProductPurchaseSuccessPage({
 }
 
 async function getPublicProduct(id: string) {
-  "use cache"
-  cacheTag(getProductIdTag(id))
+
 
   return db.query.ProductTable.findFirst({
     columns: {

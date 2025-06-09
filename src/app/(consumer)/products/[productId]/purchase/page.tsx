@@ -76,8 +76,6 @@ async function SuspendedComponent({
 }
 
 async function getPublicProduct(id: string) {
-  "use cache"
-  cacheTag(getProductIdTag(id))
 
   return db.query.ProductTable.findFirst({
     columns: {
