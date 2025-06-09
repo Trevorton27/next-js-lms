@@ -6,8 +6,6 @@ import {
   ProductTable,
   PurchaseTable,
 } from "@/drizzle/schema"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
-import { getPurchaseUserTag } from "@/features/purchases/db/cache"
 
 export async function userOwnsProduct({
   userId,
