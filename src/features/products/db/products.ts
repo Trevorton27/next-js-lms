@@ -1,6 +1,5 @@
 import { and, eq, isNull } from "drizzle-orm"
 import { db } from "@/drizzle/db"
-import { revalidateProductCache } from "./cache"
 import {
   CourseProductTable,
   ProductTable,
@@ -45,7 +44,6 @@ export async function insertProduct(
     return newProduct
   })
 
-  revalidateProductCache(newProduct.id)
 
   return newProduct
 }
@@ -79,7 +77,6 @@ export async function updateProduct(
     return updatedProduct
   })
 
-  revalidateProductCache(updatedProduct.id)
 
   return updatedProduct
 }
@@ -91,7 +88,6 @@ export async function deleteProduct(id: string) {
     .returning()
   if (deletedProduct == null) throw new Error("Failed to delete product")
 
-  revalidateProductCache(deletedProduct.id)
 
   return deletedProduct
 }

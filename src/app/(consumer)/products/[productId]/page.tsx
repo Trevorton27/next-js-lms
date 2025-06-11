@@ -15,12 +15,8 @@ import {
 } from "@/components/ui/card"
 import { db } from "@/drizzle/db"
 import { CourseSectionTable, LessonTable, ProductTable } from "@/drizzle/schema"
-import { getCourseIdTag } from "@/features/courses/db/cache/courses"
-import { getCourseSectionCourseTag } from "@/features/courseSections/db/cache"
 import { wherePublicCourseSections } from "@/features/courseSections/permissions/sections"
-import { getLessonCourseTag } from "@/features/lessons/db/cache/lessons"
 import { wherePublicLessons } from "@/features/lessons/permissions/lessons"
-import { getProductIdTag } from "@/features/products/db/cache"
 import { userOwnsProduct } from "@/features/products/db/products"
 import { wherePublicProducts } from "@/features/products/permissions/products"
 import { formatPlural, formatPrice } from "@/lib/formatters"
@@ -29,7 +25,6 @@ import { getUserCoupon } from "@/lib/userCountryHeader"
 import { getCurrentUser } from "@/services/clerk"
 import { and, asc, eq } from "drizzle-orm"
 import { VideoIcon } from "lucide-react"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -230,13 +225,7 @@ async function getPublicProduct(id: string) {
 
   if (product == null) return product
 
-  cacheTag(
-    ...product.courseProducts.flatMap(cp => [
-      getLessonCourseTag(cp.course.id),
-      getCourseSectionCourseTag(cp.course.id),
-      getCourseIdTag(cp.course.id),
-    ])
-  )
+
 
   const { courseProducts, ...other } = product
 
