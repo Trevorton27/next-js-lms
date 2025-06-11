@@ -217,8 +217,8 @@ export default function LandingPage() {
                 </CardHeader>
                 <CardContent>
                   <blockquote className="text-lg font-semibold">
-                    "StreamLine has transformed how we handle our daily operations. We've reduced manual work by 80% and
-                    our team is more productive than ever."
+                    &ldquo;StreamLine has transformed how we handle our daily operations. We&apos;ve reduced manual work by 80% and
+                    our team is more productive than ever.&rdquo;
                   </blockquote>
                   <div className="mt-4 flex items-center gap-3">
                     <Image
@@ -247,8 +247,8 @@ export default function LandingPage() {
                 </CardHeader>
                 <CardContent>
                   <blockquote className="text-lg font-semibold">
-                    "The automation features are incredible. What used to take hours now happens automatically. Our ROI
-                    was positive within the first month."
+                    &ldquo;The automation features are incredible. What used to take hours now happens automatically. Our ROI
+                    was positive within the first month.&rdquo;
                   </blockquote>
                   <div className="mt-4 flex items-center gap-3">
                     <Image
@@ -277,8 +277,8 @@ export default function LandingPage() {
                 </CardHeader>
                 <CardContent>
                   <blockquote className="text-lg font-semibold">
-                    "StreamLine's analytics give us insights we never had before. We can now make data-driven decisions
-                    that actually move the needle."
+                    &ldquo;StreamLine&apos;s analytics give us insights we never had before. We can now make data-driven decisions
+                    that actually move the needle.&rdquo;
                   </blockquote>
                   <div className="mt-4 flex items-center gap-3">
                     <Image

@@ -7,11 +7,8 @@ import {
   UserCourseAccessTable,
   UserRole,
 } from "@/drizzle/schema"
-import { getUserCourseAccessUserTag } from "@/features/courses/db/cache/userCourseAccess"
 import { wherePublicCourseSections } from "@/features/courseSections/permissions/sections"
 import { and, eq, or } from "drizzle-orm"
-import { getLessonIdTag } from "../db/cache/lessons"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 
 export function canCreateLessons({ role }: { role: UserRole | undefined }) {
   return role === "admin"
